@@ -1,0 +1,19 @@
+﻿@page "/"
+@page "/{Id:int}"
+<PageTitle>Welcome to our shop</PageTitle>
+<div class="row">
+    @if (Id > 0)
+    {
+        <ProductList Id="Id"></ProductList>
+    }
+    else
+    {
+       <ProductList></ProductList>
+    }
+    
+</div>
+
+@code{
+    [Parameter]
+    public int Id { get; set; }       
+}

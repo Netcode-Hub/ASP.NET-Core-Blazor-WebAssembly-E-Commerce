@@ -1,0 +1,45 @@
+﻿
+@if (Products != null)
+{
+    @foreach (var product in Products)
+    {
+        <div class="col-md-auto m-3">
+            <div class="card border-0">
+                <img src="@product.Image" width="200" height="200" class="card-img-top" alt="@product.Title" />
+                <h4 class="text-center">@product.Title</h4>
+                <p>@product.Description</p>
+                @if (product.OriginalPrice > product.Price)
+                {
+                    <span class="text-decoration-line-through text-muted text-center">$@product.OriginalPrice</span>
+                }
+                <span class="text-primary fw-bold text-center">$@product.Price</span>
+                <div class="bg-light">
+                    <a href="#" class="btn btn-danger"> <i class="oi oi-cart"></i> Add to Cart</a>
+                </div>
+
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="text-primary badge">Please wait...</div>
+}
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public IEnumerable<Product> Products { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Products = (await productService.GetAllProducts()).ToList();
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Products = (await productService.GetProductByCategoryId(Id)).ToList();
+    }
+}
